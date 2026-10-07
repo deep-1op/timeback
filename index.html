@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TIMEBACK</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#08090d;
+color:white;
+}
+.app{
+max-width:520px;
+margin:auto;
+padding:22px 18px 60px;
+min-height:100vh;
+}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:45px;
+}
+.logo{
+font-size:18px;
+font-weight:bold;
+letter-spacing:4px;
+}
+.badge{
+font-size:10px;
+color:#999;
+border:1px solid #292b35;
+padding:7px 10px;
+border-radius:20px;
+}
+.hero{
+margin-bottom:25px;
+}
+.small{
+color:#8e93a5;
+font-size:11px;
+letter-spacing:2px;
+text-transform:uppercase;
+}
+h1{
+font-size:44px;
+line-height:1;
+margin:12px 0;
+letter-spacing:-2px;
+}
+p{
+color:#a4a8b5;
+line-height:1.6;
+}
+.card{
+background:#11131b;
+border:1px solid #272a35;
+border-radius:25px;
+padding:20px;
+margin-top:18px;
+}
+label{
+display:block;
+font-size:11px;
+color:#9297a8;
+margin-bottom:8px;
+letter-spacing:1px;
+}
+textarea,input{
+width:100%;
+background:#08090e;
+border:1px solid #292c37;
+color:white;
+border-radius:14px;
+padding:14px;
+font-size:15px;
+outline:none;
+}
+textarea{
+min-height:160px;
+resize:vertical;
+}
+.row{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+margin-top:15px;
+}
+button{
+width:100%;
+border:0;
+border-radius:15px;
+padding:15px;
+font-size:14px;
+font-weight:bold;
+margin-top:15px;
+cursor:pointer;
+}
+.primary{
+background:white;
+color:#08090d;
+}
+.secondary{
+background:#20222c;
+color:white;
+}
+.hidden{
+display:none;
+}
+.lock{
+font-size:55px;
+text-align:center;
+margin:10px;
+}
+.center{
+text-align:center;
+}
+.date{
+font-size:25px;
+font-weight:bold;
+margin:10px 0;
+}
+.timer{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin:22px 0;
+}
+.box{
+background:#08090e;
+border:1px solid #292c37;
+border-radius:13px;
+padding:12px 4px;
+text-align:center;
+}
+.number{
+font-size:23px;
+font-weight:bold;
+}
+.unit{
+font-size:9px;
+color:#777c8b;
+margin-top:4px;
+}
+.message{
+white-space:pre-wrap;
+line-height:1.7;
+font-size:16px;
+}
+footer{
+text-align:center;
+color:#555a68;
+font-size:10px;
+margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+<div class="logo">TIMEBACK</div>
+<div class="badge">YOUR FUTURE AWAITS</div>
+</header>
+
+<section id="create">
+
+<div class="hero">
+<div class="small">A message to the person you become</div>
+
+<h1>Send something<br>through time.</h1>
+
+<p>
+Write something today that your future self deserves to hear.
+Lock it. Wait. Then come back.
+</p>
+</div>
+
+<div class="card">
+
+<label>YOUR MESSAGE</label>
+
+<textarea id="message"
+placeholder="Dear future me..."></textarea>
+
+<div class="row">
+
+<div>
+<label>UNLOCK DATE</label>
+<input id="date" type="date">
+</div>
+
+<div>
+<label>YOUR NAME</label>
+<input id="name" placeholder="Optional">
+</div>
+
+</div>
+
+<button class="primary" onclick="createCapsule()">
+🔒 SEAL MY TIME CAPSULE
+</button>
+
+<button class="secondary" onclick="demo()">
+⚡ TRY DEMO
+</button>
+
+</div>
+
+</section>
+
+
+<section id="locked" class="hidden">
+
+<div class="hero">
+<div class="small">Capsule successfully sealed</div>
+
+<h1>You left something<br>for yourself.</h1>
+</div>
+
+<div class="card center">
+
+<div class="lock">🔐</div>
+
+<div class="small">SEALED UNTIL</div>
+
+<div id="unlockDate" class="date"></div>
+
+<div class="timer">
+
+<div class="box">
+<div id="days" class="number">0</div>
+<div class="unit">DAYS</div>
+</div>
+
+<div class="box">
+<div id="hours" class="number">00</div>
+<div class="unit">HOURS</div>
+</div>
+
+<div class="box">
+<div id="minutes" class="number">00</div>
+<div class="unit">MINUTES</div>
+</div>
+
+<div class="box">
+<div id="seconds" class="number">00</div>
+<div class="unit">SECONDS</div>
+</div>
+
+</div>
+
+<p>
+Your message is locked until the time arrives.
+</p>
+
+</div>
+
+<button class="secondary" onclick="resetApp()">
+＋ CREATE ANOTHER CAPSULE
+</button>
+
+</section>
+
+
+<section id="open" class="hidden">
+
+<div class="hero">
+
+<div class="small">The future has arrived</div>
+
+<h1>Open your<br>past self.</h1>
+
+</div>
+
+<div class="card">
+
+<label>YOUR MESSAGE FROM THE PAST</label>
+
+<div id="pastMessage" class="message"></div>
+
+<p id="meta"></p>
+
+<label style="margin-top:25px">
+YOUR ANSWER TO YOUR PAST SELF
+</label>
+
+<textarea id="reply"
+placeholder="What changed? What did you learn?"></textarea>
+
+<button class="primary" onclick="saveReply()">
+🪞 SAVE MY ANSWER
+</button>
+
+<button class="secondary" onclick="resetApp()">
+＋ START ANOTHER CAPSULE
+</button>
+
+</div>
+
+</section>
+
+
+<footer>
+TIMEBACK • A message across time
+</footer>
+
+</div>
+
+
+<script>
+
+let countdown;
+
+function todayPlus(days){
+
+let d=new Date();
+
+d.setDate(d.getDate()+days);
+
+return d.toISOString().split("T")[0];
+
+}
+
+document.getElementById("date").min=todayPlus(0);
+
+document.getElementById("date").value=todayPlus(7);
+
+
+function createCapsule(){
+
+let message=document.getElementById("message").value.trim();
+
+let date=document.getElementById("date").value;
+
+let name=document.getElementById("name").value.trim();
+
+if(!message){
+
+alert("First write a message for your future self.");
+
+return;
+
+}
+
+if(!date){
+
+alert("Please select an unlock date.");
+
+return;
+
+}
+
+let target=new Date(date+"T00:00:00").getTime();
+
+if(target<=Date.now()){
+
+alert("Please select a future date.");
+
+return;
+
+}
+
+let capsule={
+message:message,
+date:date,
+name:name,
+target:target,
+created:Date.now()
+};
+
+localStorage.setItem(
+"timebackCapsule",
+JSON.stringify(capsule)
+);
+
+showLocked();
+
+}
+
+
+function showLocked(){
+
+let capsule=
+JSON.parse(localStorage.getItem("timebackCapsule"));
+
+document.getElementById("create")
+.classList.add("hidden");
+
+document.getElementById("open")
+.classList.add("hidden");
+
+document.getElementById
